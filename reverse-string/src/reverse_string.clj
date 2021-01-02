@@ -2,8 +2,3 @@
 
 (defn reverse-string [s]
   (apply str (into () s)))
-
-
-
-
-
