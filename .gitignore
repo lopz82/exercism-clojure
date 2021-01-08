@@ -2,3 +2,5 @@
 .lein
 .lein*
 target
+*.iml
+.exercism
