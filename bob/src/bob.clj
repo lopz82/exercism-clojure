@@ -18,5 +18,5 @@
            (question? f)) "Calm down, I know what I'm doing!"
       (yelling? f) "Whoa, chill out!"
       (question? f) "Sure."
-      (empty? (s/trim s)) "Fine. Be that way!"
-      :else "Whatever.")))
+      (empty? s)) "Fine. Be that way!"
+      :else "Whatever."))
