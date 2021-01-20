@@ -1,23 +1,18 @@
 (ns bob
   (:require [clojure.string :as s]))
 
-(defn valid-char? [s]
-  (boolean (re-matches #"[A-Za-z?!]" (str s))))
-
-(defn punctuation? [s]
-  (contains? (set "?!") s))
+(defn has-letter? [s]
+  (some #(Character/isLetter (int %)) s))
 
 (defn question? [s]
   (s/ends-with? s "?"))
 
 (defn yelling? [s]
-  (let [s (s/join (filter (complement punctuation?) s))]
-    (if (s/blank? s)
-      false
-      (= s (s/upper-case s)))))
+  (and (= s (s/upper-case s))
+       (has-letter? s)))
 
 (defn response-for [s]
-  (let [f (apply str (filter valid-char? s))]
+  (let [f (s/trim s)]
     (cond
       (and (yelling? f)
            (question? f)) "Calm down, I know what I'm doing!"
