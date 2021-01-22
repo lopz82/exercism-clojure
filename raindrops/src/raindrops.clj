@@ -1,17 +1,11 @@
 (ns raindrops)
 
-(defn- divisible-by? [factor, resp]
-  (fn [num]
-    (when (zero? (mod num factor)) resp)))
-
-(def by-3? (divisible-by? 3 "Pling"))
-
-(def by-5? (divisible-by? 5 "Plang"))
-
-(def by-7? (divisible-by? 7 "Plong"))
+(defn- divisible-by? [factor num]
+  (zero? (mod num factor)))
 
 (defn convert [n]
-  (let [raindrop (map #(%1 %2) [by-3? by-5? by-7?] (repeat 3 n))]
-    (if (every? nil? raindrop)
-      (str n)
-      (clojure.string/join raindrop))))
+  (cond-> nil
+          (divisible-by? 3 n) (str "Pling")
+          (divisible-by? 5 n) (str "Plang")
+          (divisible-by? 7 n) (str "Plong")
+          :always (or (str n))))
