@@ -22,4 +22,3 @@
   (->> word
        (map score-letter)
        (apply +)))
-
