@@ -1,11 +1,17 @@
 (ns armstrong-numbers)
 
 (defn exp [base power]
-  (reduce * 1 (repeat power base)))
+  (apply * (repeat power base)))
+
+(defn figures [n]
+  (->> n
+       (iterate #(quot % 10))
+       (take-while pos?)
+       (map #(mod % 10))))
 
 (defn armstrong? [num]
-  (= num (->> (seq (str num))
-              (map #(Integer/parseInt (str %)))
-              (map #(exp % (count (str num))))
-              (reduce +))))
-
+  (->> num
+       figures
+       (map #(exp % (count (str num))))
+       (apply +)
+       (= num)))
