@@ -1,12 +1,8 @@
 (ns rna-transcription)
 
-(def dna-rna (zipmap [\G \C \T \A] [\C \G \A \U]))
-
-(defn transcript [n]
-  {:post [%]}
-  (dna-rna n))
+(def dna->rna {\G \C \C \G \T \A \A \U})
 
 (defn to-rna [dna]
-  (->> dna
-       (map transcript)
-       (apply str)))
+  (let [rna (apply str (map dna->rna dna))]
+    (assert (= (count dna) (count rna)))
+    rna))
