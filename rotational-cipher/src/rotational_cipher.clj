@@ -1,25 +1,23 @@
 (ns rotational-cipher)
 
-(defn- rotator [start]
+(defn- rotator [s]
   (fn [c rot]
-    (let [c (int c)
-          s (int start)]
+    (let [c (int c)]
       (-> (- c s)
           (+ rot)
           (mod 26)
           (+ s)
           char))))
 
-(def lower-rotator (rotator \a))
-(def upper-rotator (rotator \A))
+(def lower-rotator (rotator (int \a)))
+(def upper-rotator (rotator (int \A)))
 
-(defn- rotate-char [c rot]
-  (cond
-    (Character/isUpperCase c) (upper-rotator c rot)
-    (Character/isLowerCase c) (lower-rotator c rot)
-    :else c))
+(defn- rotate-char [rot c]
+  (cond-> c
+    (Character/isUpperCase c) (upper-rotator rot)
+    (Character/isLowerCase c) (lower-rotator rot)))
 
 (defn rotate [letter rot]
-  (->> (repeat rot)
-       (map rotate-char letter)
+  (->> letter
+       (map (partial rotate-char rot))
        (apply str)))
